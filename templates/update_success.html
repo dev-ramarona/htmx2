@@ -1,0 +1,5 @@
+<!-- Merender ulang seluruh isi tabel dengan data terbaru -->
+{{template "rows.html" .}}
+
+<!-- Out-of-Band Swap: HTMX akan secara spesifik mencari elemen dengan ID 'modal-container' di browser dan menggantinya dengan div kosong ini (Menutup modal) -->
+<div id="modal-container" hx-swap-oob="true"></div>

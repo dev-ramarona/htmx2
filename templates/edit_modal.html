@@ -1,0 +1,72 @@
+<!-- Background gelap transparan -->
+<div
+  x-data="{ show: false }"
+  x-init="$nextTick(() => show = true)"
+  class="fixed inset-0 flex items-center justify-center bg-black/40"
+  class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+>
+  <!-- Kotak Modal Putih -->
+  <div
+    x-show="show"
+    x-transition:enter="duration-300"
+    x-transition:enter-start="opacity-0 scale-50"
+    x-transition:enter-end="opacity-100 scale-100"
+    x-transition:leave="duration-300"
+    x-transition:leave-start="opacity-100 scale-100"
+    x-transition:leave-end="opacity-0 scale-95"
+    class="bg-white rounded-xl p-6 shadow-xl w-96"
+  >
+    <h3 class="text-xl font-bold mb-4">Edit Data Karyawan (ID: {{.ID}})</h3>
+
+    <!-- Form mengirim update data ke server -->
+    <form hx-post="/edit/{{.ID}}" hx-target="#table-body">
+      <div class="mb-4">
+        <label class="block mb-1 font-semibold text-sm">Nama</label>
+        <input
+          type="text"
+          name="name"
+          value="{{.Name}}"
+          required
+          class="w-full border p-2 rounded focus:ri ng-2 focus:ring-blue-500 outline-none"
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block mb-1 font-semibold text-sm">Posisi</label>
+        <input
+          type="text"
+          name="position"
+          value="{{.Position}}"
+          required
+          class="w-full border p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+        />
+      </div>
+      <div class="mb-6">
+        <label class="block mb-1 font-semibold text-sm">Email</label>
+        <input
+          type="email"
+          name="email"
+          value="{{.Email}}"
+          required
+          class="w-full border p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+        />
+      </div>
+
+      <div class="flex justify-end gap-3">
+        <!-- Tombol Batal (Hanya menghapus isi container modal via Vanilla JS) -->
+        <button
+          @click="show = false; setTimeout(() => $root.remove(), 300)"
+          type="button"
+          class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded transition"
+        >
+          Batal
+        </button>
+        <button
+          type="submit"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition"
+        >
+          Simpan
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

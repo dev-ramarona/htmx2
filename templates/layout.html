@@ -1,0 +1,41 @@
+{{define "header"}}
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Go HTMX Dashboard</title>
+    <!-- Load HTMX -->
+    <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+    <!-- Load Tailwind CSS untuk styling cepat -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Alpine.js untuk interaktivitas frontend -->
+    <script src="//unpkg.com/alpinejs" defer></script>
+  </head>
+  <body class="bg-gray-100 text-gray-800">
+    <!-- Navigation Bar (Hanya tampil jika user sudah login) -->
+    {{if .User}}
+    <nav
+      class="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center"
+    >
+      <h1 class="text-xl font-bold">Aplikasi Saya</h1>
+      <div class="flex gap-4 items-center">
+        <span>Halo, {{.User}}</span>
+        <!-- Form Logout -->
+        <form action="/logout" method="POST" class="inline">
+          <button
+            type="submit"
+            class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded transition"
+          >
+            Logout
+          </button>
+        </form>
+      </div>
+    </nav>
+    {{end}}
+
+    <!-- Kontainer utama untuk isi halaman -->
+    <main class="p-8">{{end}} {{define "footer"}}</main>
+  </body>
+</html>
+{{end}}
