@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Roboto";
+  src: url("/static/fonts/Roboto-VariableFont_wdth,wght.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+/* ---------- Normal ---------- */
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-Thin.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-ExtraLight.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-Black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* ---------- Italic ---------- */
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-ThinItalic.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-ExtraLightItalic.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-LightItalic.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-MediumItalic.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-SemiBoldItalic.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-BoldItalic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-ExtraBoldItalic.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/static/fonts/Poppins-BlackItalic.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}
+
+body {
+  font-family: "Poppins", "Roboto", sans-serif;
+}
+
+@theme {
+  /* PRIMARY */
+  --color-prmary-500: #0f172a;
+  --color-prmary-400: #1e293b;
+  --color-prmary-300: #334155;
+  --color-prmary-200: #64748b;
+  --color-prmary-100: #e2e8f0;
+
+  /* ACCENT */
+  --color-accent-500: #0891b2;
+  --color-accent-400: #06b6d4;
+  --color-accent-300: #67e8f9;
+  --color-accent-200: #a5f3fc;
+  --color-accent-100: #ecfeff;
+
+  /* SUCCESS */
+  --color-sccess-500: #15803d;
+  --color-sccess-400: #22c55e;
+  --color-sccess-300: #86efac;
+  --color-sccess-200: #bbf7d0;
+  --color-sccess-100: #f0fdf4;
+
+  /* WARNING */
+  --color-wrning-500: #b45309;
+  --color-wrning-400: #f59e0b;
+  --color-wrning-300: #fcd34d;
+  --color-wrning-200: #fde68a;
+  --color-wrning-100: #fffbeb;
+
+  /* DANGER */
+  --color-danger-500: #be123c;
+  --color-danger-400: #e11d48;
+  --color-danger-300: #fb7185;
+  --color-danger-200: #fecdd3;
+  --color-danger-100: #fff1f2;
+
+  /* OFF */
+  --color-inctve-500: #64748b;
+  --color-inctve-400: #94a3b8;
+  --color-inctve-300: #cbd5e1;
+  --color-inctve-200: #e2e8f0;
+  --color-inctve-100: #f8fafc;
+}

@@ -6,36 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Go HTMX Dashboard</title>
     <!-- Load HTMX -->
-    <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+    <script src="/static/js/htmx.min.js"></script>
     <!-- Load Tailwind CSS untuk styling cepat -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/css/output.css" />
+    <!-- Load custom JavaScript -->
+    <script defer src="/static/js/modal.js"></script>
     <!-- Load Alpine.js untuk interaktivitas frontend -->
     <script src="//unpkg.com/alpinejs" defer></script>
   </head>
-  <body class="bg-gray-100 text-gray-800">
+  <body
+    class="flex w-screen max-w-full flex-col items-center justify-center bg-gray-100 py-10 font-[Roboto] text-gray-800"
+    x-data="layout()"
+    x-init="init()"
+    @scroll.window="checkScroll()"
+  >
     <!-- Navigation Bar (Hanya tampil jika user sudah login) -->
     {{if .User}}
     <nav
-      class="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center"
+      class="linear bg-accent-500 fixed top-0 z-30 flex items-center justify-between p-4 text-white shadow-md transition-all duration-500 ease-in-out"
+      :class="atTop ? 'w-full h-14 md:h-16' : 'w-full md:w-5/6 h-10 md:h-12 md:top-2 md:rounded-md'"
     >
-      <h1 class="text-xl font-bold">Aplikasi Saya</h1>
-      <div class="flex gap-4 items-center">
-        <span>Halo, {{.User}}</span>
+      <div>
+        <div class="text-base leading-4 font-bold md:text-xl">
+          Internal Control
+        </div>
+        <div class="text-xs leading-4 font-semibold md:text-xs">
+          Data Analyst
+        </div>
+      </div>
+      <div class="flex items-center gap-4 text-xs md:text-base">
+        {{template "icon_user"}}
+        <!-- <span>Halo, {{.User}}</span> -->
         <!-- Form Logout -->
-        <form action="/logout" method="POST" class="inline">
-          <button
-            type="submit"
-            class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded transition"
-          >
-            Logout
-          </button>
-        </form>
+        <!-- <form action="/logout" hx-push-url="true" method="POST" class="inline"> -->
+        <!-- <button -->
+        <!-- type="submit" -->
+        <!-- class="cursor-pointer rounded bg-red-500 px-3 py-1 transition hover:bg-red-600" -->
+        <!-- > -->
+        <!-- Logout -->
+        <!-- </button> -->
+        <!-- </form> -->
       </div>
     </nav>
     {{end}}
 
     <!-- Kontainer utama untuk isi halaman -->
-    <main class="p-8">{{end}} {{define "footer"}}</main>
+    <main class="w-full p-6">{{end}} {{define "footer"}}</main>
   </body>
 </html>
 {{end}}

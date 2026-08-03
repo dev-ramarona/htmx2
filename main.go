@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
+	"reflect"
 	"strconv"
 	"strings"
 
@@ -14,16 +16,37 @@ import (
 type Employee struct {
 	ID       int
 	Name     string
+	Gender   string
+	Age      int
 	Position string
 	Email    string
+	Phone    string
+	Address  string
+	City     string
+	Status   string
 }
 
 var employees = []Employee{
-	{1, "Budi Santoso", "Software Engineer", "budi@example.com"},
-	{2, "Siti Aminah", "Product Manager", "siti@example.com"},
-	{3, "Agus Prasetyo", "UI/UX Designer", "agus@example.com"},
-	{4, "Dewi Lestari", "Data Analyst", "dewi@example.com"},
-	{5, "Reza Rahadian", "DevOps Engineer", "reza@example.com"},
+	{1, "Budi Santoso", "Male", 28, "Software Engineer", "budi@example.com", "081234567801", "Jl. Melati No. 12", "Jakarta", "Active"},
+	{2, "Siti Aminah", "Female", 31, "Product Manager", "siti@example.com", "081234567802", "Jl. Mawar No. 8", "Bandung", "Active"},
+	{3, "Agus Prasetyo", "Male", 26, "UI/UX Designer", "agus@example.com", "081234567803", "Jl. Anggrek No. 15", "Surabaya", "Active"},
+	{4, "Dewi Lestari", "Female", 29, "Data Analyst", "dewi@example.com", "081234567804", "Jl. Kenanga No. 21", "Yogyakarta", "Active"},
+	{5, "Reza Rahadian", "Male", 32, "DevOps Engineer", "reza@example.com", "081234567805", "Jl. Flamboyan No. 5", "Bekasi", "Active"},
+	{6, "Rina Kusuma", "Female", 27, "Backend Developer", "rina@example.com", "081234567806", "Jl. Sakura No. 10", "Depok", "Active"},
+	{7, "Andi Wijaya", "Male", 30, "Frontend Developer", "andi@example.com", "081234567807", "Jl. Cemara No. 19", "Bogor", "Active"},
+	{8, "Fajar Nugroho", "Male", 25, "QA Engineer", "fajar@example.com", "081234567808", "Jl. Merpati No. 7", "Semarang", "Active"},
+	{9, "Nadia Putri", "Female", 28, "Business Analyst", "nadia@example.com", "081234567809", "Jl. Teratai No. 14", "Malang", "Active"},
+	{10, "Yoga Pratama", "Male", 34, "System Analyst", "yoga@example.com", "081234567810", "Jl. Dahlia No. 18", "Tangerang", "Inactive"},
+	{11, "Lina Marlina", "Female", 29, "HR Specialist", "lina@example.com", "081234567811", "Jl. Cendana No. 22", "Bandung", "Active"},
+	{12, "Dimas Saputra", "Male", 27, "Mobile Developer", "dimas@example.com", "081234567812", "Jl. Nusa Indah No. 3", "Jakarta", "Active"},
+	{13, "Maya Sari", "Female", 35, "Project Manager", "maya@example.com", "081234567813", "Jl. Kamboja No. 6", "Surabaya", "Active"},
+	{14, "Hendra Gunawan", "Male", 33, "Cloud Engineer", "hendra@example.com", "081234567814", "Jl. Pahlawan No. 27", "Medan", "Active"},
+	{15, "Putri Ayu", "Female", 24, "Technical Writer", "putri@example.com", "081234567815", "Jl. Kartini No. 9", "Solo", "Active"},
+	{16, "Rizky Hidayat", "Male", 31, "Security Engineer", "rizky@example.com", "081234567816", "Jl. Diponegoro No. 11", "Makassar", "Active"},
+	{17, "Nanda Permata", "Female", 30, "Database Administrator", "nanda@example.com", "081234567817", "Jl. Ahmad Yani No. 45", "Palembang", "Active"},
+	{18, "Arif Setiawan", "Male", 36, "Scrum Master", "arif@example.com", "081234567818", "Jl. Sudirman No. 55", "Bandar Lampung", "Active"},
+	{19, "Intan Maharani", "Female", 28, "Marketing Specialist", "intan@example.com", "081234567819", "Jl. Imam Bonjol No. 13", "Denpasar", "On Leave"},
+	{20, "Farhan Akbar", "Male", 26, "AI Engineer", "farhan@example.com", "081234567820", "Jl. Gatot Subroto No. 17", "Balikpapan", "Active"},
 }
 
 // Middleware untuk mengecek apakah user sudah login
@@ -38,6 +61,21 @@ func AuthRequired() gin.HandlerFunc {
 		}
 		c.Next()
 	}
+}
+
+// Fungsi untuk mengubah struct menjadi slice of interface{}
+func StructToSlice(v any) ([]string, []string) {
+	val := reflect.ValueOf(v)
+	typ := reflect.TypeOf(v)
+
+	fields := make([]string, val.NumField())
+	headers := make([]string, val.NumField())
+
+	for i := 0; i < val.NumField(); i++ {
+		fields[i] = fmt.Sprintf("%v", val.Field(i).Interface())
+		headers[i] = typ.Field(i).Name
+	}
+	return fields, headers
 }
 
 func main() {
@@ -56,11 +94,16 @@ func main() {
 	r.Use(sessions.Sessions("mysession", store))
 
 	// Load HTML templates
+	r.Static("/static", "./static")
 	r.LoadHTMLGlob("templates/*")
 
 	// Rute Publik
 	r.GET("/", func(c *gin.Context) { c.Redirect(http.StatusFound, "/dashboard") })
-	r.GET("/login", func(c *gin.Context) { c.HTML(http.StatusOK, "login.html", nil) })
+	r.GET("/login", func(c *gin.Context) {
+		c.Header("HX-Redirect", "/login")
+		c.HTML(http.StatusOK, "login.html", nil)
+		c.Header("HX-Refresh", "true")
+	})
 
 	// Proses Login
 	r.POST("/login", func(c *gin.Context) {
@@ -76,7 +119,7 @@ func main() {
 			c.Header("HX-Redirect", "/dashboard")
 			c.Status(http.StatusOK)
 		} else {
-			c.HTML(http.StatusOK, "login.html", gin.H{"Error": "Username atau Password salah"})
+			c.HTML(http.StatusOK, "login_form", gin.H{"Error": "Username atau Password salah"})
 		}
 	})
 
@@ -85,6 +128,7 @@ func main() {
 		session := sessions.Default(c)
 		session.Clear()
 		session.Save()
+		session.Options(sessions.Options{MaxAge: -1})
 		c.Redirect(http.StatusFound, "/login")
 		c.Header("HX-Refresh", "true")
 	})
@@ -96,22 +140,35 @@ func main() {
 		private.GET("/dashboard", func(c *gin.Context) {
 			session := sessions.Default(c)
 			user := session.Get("user")
-			c.HTML(http.StatusOK, "dashboard.html", gin.H{"User": user, "Employees": employees})
+			results := [][]string{}
+			headers := []string{}
+			for _, emp := range employees {
+				strslc, header := StructToSlice(emp)
+				results = append(results, strslc)
+				if len(headers) == 0 {
+					headers = header
+				}
+			}
+			c.HTML(http.StatusOK, "dashboard.html", gin.H{"User": user, "Employees": results, "Headers": headers})
 		})
 
 		// Rute untuk HTMX Search
 		private.GET("/search", func(c *gin.Context) {
 			query := strings.ToLower(c.Query("q"))
-			var results []Employee
-
+			var results [][]string
+			var headers []string
 			for _, emp := range employees {
 				if strings.Contains(strings.ToLower(emp.Name), query) ||
 					strings.Contains(strings.ToLower(emp.Position), query) {
-					results = append(results, emp)
+					strslc, header := StructToSlice(emp)
+					if len(headers) == 0 {
+						headers = header
+					}
+					results = append(results, strslc)
 				}
 			}
 			// Hanya me-render bagian baris tabel (partial)
-			c.HTML(http.StatusOK, "rows.html", gin.H{"Employees": results})
+			c.HTML(http.StatusOK, "rows.html", gin.H{"Employees": results, "Headers": headers})
 		})
 
 		// 1. Rute untuk MENAMPILKAN modal edit
